@@ -34,15 +34,19 @@ class TQF:
 
 @daaclass(slots=True)
 class Question:
-	tqf,
-	context,
-	 
+	tqf
+	context
+
 
 @dataclass(slots=True)
 class Context:
 	m: Dict
 
 
+@dataclass(slots=True)
+class ReverseNode:
+	e_atom
+	top_aformula
 
 
 
