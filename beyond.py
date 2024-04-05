@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from typing import List, Tuple, Dict, ClassVar
+from typing import List, Tuple, Dict, ClassVar, Any
 
 from timeit import timeit
 
@@ -19,11 +19,24 @@ class Term:
 
 
 @dataclass(slots=True)
+class Flatterm:
+	vector: List[Tuple[int,int]]
+
+
+@dataclass(slots=True)
+class VMap:
+	m: Dict
+
+
+
+@dataclass(slots=True)
 class TQF:
 	quantifier: int # 1 is forall, 2 is exists
 	variables: List
 	conjunct: List
+	prev: Any
 	next: List
+	inverted: List
 
 	def is_forall():
 		return self.quantifier == 1
@@ -32,22 +45,19 @@ class TQF:
 		return self.quantifier == 2
 
 
-@daaclass(slots=True)
+
+
+@dataclass(slots=True)
 class Question:
-	tqf
-	context
+	tqf: TQF
+	context: VMap
 
 
-@dataclass(slots=True)
-class Context:
-	m: Dict
 
 
-@dataclass(slots=True)
-class ReverseNode:
-	e_atom
-	top_aformula
 
+def matching(t_a: Term, t_e: Term, a_context: VMap, curr_answer: VMap):
+	pass
 
 
 
