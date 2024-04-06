@@ -27,6 +27,15 @@ class Flatterm:
 class VMap:
 	m: Dict
 
+	def get_map(self, v):
+		return self.m[v] if v in self.m else None
+
+	def check_v(self, v):
+		return v in self.m
+
+	def add(self, v, t):
+		self.m[v] = t
+
 
 
 @dataclass(slots=True)
@@ -56,8 +65,20 @@ class Question:
 
 
 
-def matching(t_a: Term, t_e: Term, a_context: VMap, curr_answer: VMap):
-	pass
+def match(t_a: Term, t_e: Term, a_context: VMap, curr_answer: VMap, curr_map):
+	if t_a.is_variable():
+		if a_context.check_v(t_a): return match(a_context.get_v(t_a), t_e, a_context, curr_answer, curr_map)
+		if curr_answer.check_v(t_a): return match(curr_answer.get_v(t_a), t_e, a_context, curr_answer, curr_map)
+		if curr_map.check_v(t_1): return match(curr_map.get_v(t_a), t_e, a_context, curr_answer, curr_map)
+		curr_map.add(t_a,t_e)
+		return True
+	if t_a.sid == t_e.sid:
+		#map(lambda p: matching(p[0],p[1],a_context,curr_answer,curr_map),list(zip(t_a.args, t_e.args)))
+		for p in list(zip(t_a.args, t_e.args)):
+			if not match(p[0], p[1], a_context, curr_answer, curr_map): return False
+		return True
+	else:
+		return False
 
 
 
