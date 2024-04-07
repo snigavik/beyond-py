@@ -4,6 +4,7 @@ from typing import List, Tuple, Dict, ClassVar, Any
 
 from timeit import timeit
 
+
 @dataclass(slots=True, unsafe_hash=True)
 class Term:
 	sid: int
@@ -13,7 +14,7 @@ class Term:
 	print_mode: ClassVar = "plain"
 
 	def __str__(self):
-		if Term.print_mode == "varbose":
+		if Term.print_mode == "verbose":
 			return f'{Term.table[self.sid]+ ("."+str(self.sid) if self.is_variable() else "")}{"" if not self.args else "("+",".join(map(str,self.args))+")"}' 
 		if Term.print_mode == "plain":
 			return f'{Term.table[self.sid]}{"" if not self.args else "("+",".join(map(str,self.args))+")"}' 
@@ -81,12 +82,27 @@ def match(t_a: Term, t_e: Term, a_context: VMap, curr_answer: VMap, curr_map: VM
 		curr_map.add(t_a,t_e)
 		return True
 	if t_a.sid == t_e.sid:
-		#map(lambda p: matching(p[0],p[1],a_context,curr_answer,curr_map),list(zip(t_a.args, t_e.args)))
 		for p in list(zip(t_a.args, t_e.args)):
 			if not match(p[0], p[1], a_context, curr_answer, curr_map): return False
 		return True
 	else:
 		return False
+
+
+def inverted_match(t_a: Term, t_e: Term, curr_map: VMap):
+	if t_a.is_variable():
+		curr_map.add(t_a,t_e)
+		return True
+	if t_e.is_variable():
+		curr_map.add(t_e,t_a)
+		return True
+	if t_a.sid == t_e.sid:
+		for p in list(zip(t_a.args, t_e.args)):
+			if not inverted_match(p[0], p[1], curr_map): return False
+		return True
+	else:
+		return False
+					
 
 
 
