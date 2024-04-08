@@ -71,6 +71,22 @@ class Question:
 	context: VMap
 
 
+@dataclass(slots=True)
+class BranchBlock:
+	answer: VMap
+	question: Question
+	eindex: int
+	context: VMap
+	enabled: bool
+
+
+
+@dataclass(slots=True)
+class Pcf:
+	questions: List[Question]
+	base: List[Term]
+	bstack: List[BranchBlock]
+
 
 
 
