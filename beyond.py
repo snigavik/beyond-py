@@ -87,6 +87,20 @@ class Pcf:
 	base: List[Term]
 	bstack: List[BranchBlock]
 
+	def omega(self):
+		pass
+
+	def enable_top(self):
+		pass
+
+	def disable_top(self):
+		pass
+
+	def select_question(self):
+		pass
+
+	def start_inversion(self):
+		pass
 
 
 
