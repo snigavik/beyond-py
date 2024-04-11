@@ -27,6 +27,9 @@ class Term:
 class Flatterm:
 	vector: List[Tuple[int,int]]
 
+	def __str__(self):
+		return ",".join(map(lambda t: str(Term.table[t[0]]), self.vector))
+
 
 @dataclass(slots=True)
 class VMap:
@@ -43,6 +46,14 @@ class VMap:
 
 	def __str__(self):
 		return "{" + ", ".join(map(lambda p: str(p[0]) + " -> " + str(p[1]), self.m.items())) + "}"
+
+	def combine(self, vm):
+		pass
+
+	def remove(self,ks):
+		for k in ks:
+			self.m.pop(k,None)
+
 
 
 
